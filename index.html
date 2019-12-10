@@ -165,95 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zhangmeng9502.github.io/2019/12/10/prometheus_guide/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zhangmeng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MinGuk's Home">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/10/prometheus_guide/" class="post-title-link" itemprop="url">初识prometheus监控系统</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-10 13:24:17" itemprop="dateCreated datePublished" datetime="2019-12-10T13:24:17+08:00">2019-12-10</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="prometheus是什么？"><a href="#prometheus是什么？" class="headerlink" title="prometheus是什么？"></a>prometheus是什么？</h2><p>  Prometheus是一个由SoundCloud构建的开源监控告警系统,自2012年成立以来，许多公司和组织都采用了Prometheus.它现在是一个独立的开源项目，独立于任何公司维护。2016年Prometheus加入CNCF(Cloud Native Computing Foundation)，成为继Kubernetes之后的第二个托管项目。它的源码托管在github：<a href="https://github.com/prometheus/prometheus.git" target="_blank" rel="noopener">https://github.com/prometheus/prometheus.git</a></p>
-<h2 id="prometheus监控系统功能有哪些？"><a href="#prometheus监控系统功能有哪些？" class="headerlink" title="prometheus监控系统功能有哪些？"></a>prometheus监控系统功能有哪些？</h2><p>以下功能仅作为概括说明，具体实现将在架构模块分别体现。</p>
-<ul>
-<li><p>由metric和k/v组成的时序的多维数据模型。</p>
-</li>
-<li><p>灵活的查询语句（PromQL)</p>
-</li>
-<li><p>无依赖存储，每个prometheus是独立的。支持 local 和 remote 不同模型。</p>
-</li>
-<li><p>采用 http 协议，使用 pull 模式拉取数据；并且支持push模型，通过<br>intermediary gateway实现。</p>
-</li>
-<li><p>监控目标可以采用服务发现或静态配置的方式。</p>
-</li>
-<li><p>支持多种统计数据模型，图形化友好。</p>
-</li>
-</ul>
-<h2 id="prometheus-不适合做什么？"><a href="#prometheus-不适合做什么？" class="headerlink" title="prometheus 不适合做什么？"></a>prometheus 不适合做什么？</h2><p>  Prometheus 不适合做审计计费，因为它的数据是按一定时间采集的，关注的更多是系统的运行瞬时状态以及趋势，即使有少量数据没有采集也能容忍，但是审计计费需要记录每个请求，并且数据长期存储，这个和 Prometheus 无法满足，可能需要采用专门的审计系统。</p>
-<h2 id="prometheus的优势？"><a href="#prometheus的优势？" class="headerlink" title="prometheus的优势？"></a>prometheus的优势？</h2><p>  prometheus 适合记录以及查询时间序列；通过服务发现或者静态配置去获取监控的 targets，使得组件间的耦合度更低， 更轻量级；提供了灵活而强大的查询语句PromQL; 架构更易伸缩等</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><h3 id="架构图如下："><a href="#架构图如下：" class="headerlink" title="架构图如下："></a>架构图如下：</h3><img src="/pictures/Architecture.png" class="[class name]">
-
-<h3 id="prometheus监控系统各个模块是如何默契合作的？"><a href="#prometheus监控系统各个模块是如何默契合作的？" class="headerlink" title="prometheus监控系统各个模块是如何默契合作的？"></a>prometheus监控系统各个模块是如何默契合作的？</h3><ol>
-<li><p>Prometheus server 定期从静态配置的 targets 或者服务发现的 targets 拉取数据。</p>
-</li>
-<li><p>当新拉取的数据大于配置内存缓存区的时候，Prometheus 会将数据持久化到磁盘（如果使用 remote storage 将持久化到云端）。</p>
-</li>
-<li><p>Prometheus 可以配置 rules，然后定时查询数据，当条件触发的时候，会将 alert 推送到配置的 Alertmanager。</p>
-</li>
-<li><p>Alertmanager 收到警告的时候，可以根据配置，聚合，去重，降噪，最后发送警告。</p>
-</li>
-<li><p>可以使用 API， Prometheus Console 或者 Grafana 查询和聚合数据。</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zhangmeng9502.github.io/2019/12/10/deploy_prometheus/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -278,7 +189,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-10 13:24:17" itemprop="dateCreated datePublished" datetime="2019-12-10T13:24:17+08:00">2019-12-10</time>
+              <time title="Created: 2019-12-10 13:42:32" itemprop="dateCreated datePublished" datetime="2019-12-10T13:42:32+08:00">2019-12-10</time>
             </span>
 
           
@@ -442,7 +353,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-10 13:24:17" itemprop="dateCreated datePublished" datetime="2019-12-10T13:24:17+08:00">2019-12-10</time>
+              <time title="Created: 2019-12-10 13:42:32" itemprop="dateCreated datePublished" datetime="2019-12-10T13:42:32+08:00">2019-12-10</time>
             </span>
 
           
@@ -619,7 +530,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
